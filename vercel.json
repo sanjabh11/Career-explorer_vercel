@@ -7,7 +7,7 @@
     }
   ],
   "env": {
-    "REACT_APP_ONET_USERNAME": "@react_app_onet_username",
-    "REACT_APP_ONET_PASSWORD": "@react_app_onet_password"
+    "NEXT_PUBLIC_ONET_USERNAME": "@next_public_onet_username",
+    "NEXT_PUBLIC_ONET_PASSWORD": "@next_public_onet_password"
   }
 }

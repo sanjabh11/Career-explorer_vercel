@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SkillSearch from '../src/components/SkillSearch';
 import { searchOccupations, getOccupationDetails } from '../src/utils/api';
 import { calculateOverallAPO } from '../src/utils/apoCalculator';
@@ -8,17 +8,46 @@ function Home() {
   const [occupations, setOccupations] = useState([]);
   const [selectedOccupation, setSelectedOccupation] = useState(null);
   const [apoResults, setApoResults] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    console.log('Home component mounted');
+  }, []);
 
   const handleSearch = async () => {
-    const results = await searchOccupations(searchTerm);
-    setOccupations(results);
+    console.log('Searching for:', searchTerm);
+    setIsLoading(true);
+    setError(null);
+    try {
+      const results = await searchOccupations(searchTerm);
+      console.log('Search results:', results);
+      setOccupations(results);
+    } catch (error) {
+      console.error('Error in search:', error);
+      setError('Failed to search occupations. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSelectOccupation = async (onetCode) => {
-    const details = await getOccupationDetails(onetCode);
-    setSelectedOccupation(details);
-    const apo = calculateOverallAPO(details);
-    setApoResults(apo);
+    console.log('Selected occupation code:', onetCode);
+    setIsLoading(true);
+    setError(null);
+    try {
+      const details = await getOccupationDetails(onetCode);
+      console.log('Occupation details:', details);
+      setSelectedOccupation(details);
+      const apo = calculateOverallAPO(details);
+      console.log('APO results:', apo);
+      setApoResults(apo);
+    } catch (error) {
+      console.error('Error in occupation selection:', error);
+      setError('Failed to fetch occupation details. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -33,7 +62,11 @@ function Home() {
           onChange={(e) => setSearchTerm(e.target.value)} 
           placeholder="Search for occupations" 
         />
-        <button onClick={handleSearch}>Search</button>
+        <button onClick={handleSearch} disabled={isLoading}>
+          {isLoading ? 'Searching...' : 'Search'}
+        </button>
+
+        {error && <p style={{color: 'red'}}>{error}</p>}
 
         {occupations.length > 0 && (
           <ul>
@@ -52,7 +85,6 @@ function Home() {
             {apoResults.categories.map(category => (
               <p key={category.name}>{category.name} APO: {category.apo.toFixed(2)}%</p>
             ))}
-            {/* Add more details as needed */}
           </div>
         )}
       </div>

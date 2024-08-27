@@ -1,18 +1,17 @@
-// api.js
 import axios from 'axios';
 
 const api = axios.create({
   baseURL: 'https://services.onetcenter.org/ws/',
   auth: {
-    username: process.env.REACT_APP_ONET_USERNAME,
-    password: process.env.REACT_APP_ONET_PASSWORD
+    username: process.env.NEXT_PUBLIC_ONET_USERNAME,
+    password: process.env.NEXT_PUBLIC_ONET_PASSWORD
   }
 });
 
 export const searchOccupations = async (query) => {
   try {
     const response = await api.get(`online/search?keyword=${query}`);
-    return response.data.occupation;
+    return response.data.occupation || [];
   } catch (error) {
     console.error('Error searching occupations:', error);
     throw error;
@@ -30,14 +29,24 @@ export const getOccupationDetails = async (onetCode) => {
 
     return {
       details: details.data,
-      tasks: tasks.data.task,
-      knowledge: knowledge.data.knowledge,
-      skills: skills.data.skill,
-      abilities: abilities.data.ability,
-      technology: technology.data.technology
+      tasks: tasks.data.task || [],
+      knowledge: knowledge.data.knowledge || [],
+      skills: skills.data.skill || [],
+      abilities: abilities.data.ability || [],
+      technology: technology.data.technology || []
     };
   } catch (error) {
     console.error('Error fetching occupation details:', error);
+    throw error;
+  }
+};
+
+export const fetchSkills = async (query) => {
+  try {
+    const response = await api.get(`mnm/search?keyword=${query}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching skills:', error);
     throw error;
   }
 };
