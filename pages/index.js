@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { searchOccupations, getOccupationDetails } from './api';
-import { calculateOverallAPO } from './apoCalculator';
+import SkillSearch from '../src/components/SkillSearch';
+import { searchOccupations, getOccupationDetails } from '../src/utils/api';
+import { calculateOverallAPO } from '../src/utils/apoCalculator';
 
-function App() {
+function Home() {
   const [searchTerm, setSearchTerm] = useState('');
   const [occupations, setOccupations] = useState([]);
   const [selectedOccupation, setSelectedOccupation] = useState(null);
@@ -21,38 +22,42 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>O*NET Career Explorer</h1>
-      <input 
-        type="text" 
-        value={searchTerm} 
-        onChange={(e) => setSearchTerm(e.target.value)} 
-        placeholder="Search for occupations" 
-      />
-      <button onClick={handleSearch}>Search</button>
+    <div className="App">
+      <h1>GenAI Readiness Career Explorer</h1>
+      <SkillSearch />
 
-      {occupations.length > 0 && (
-        <ul>
-          {occupations.map(occupation => (
-            <li key={occupation.code} onClick={() => handleSelectOccupation(occupation.code)}>
-              {occupation.title}
-            </li>
-          ))}
-        </ul>
-      )}
+      <div>
+        <input 
+          type="text" 
+          value={searchTerm} 
+          onChange={(e) => setSearchTerm(e.target.value)} 
+          placeholder="Search for occupations" 
+        />
+        <button onClick={handleSearch}>Search</button>
 
-      {selectedOccupation && apoResults && (
-        <div>
-          <h2>{selectedOccupation.details.title}</h2>
-          <p>Overall APO: {apoResults.overall.toFixed(2)}%</p>
-          {apoResults.categories.map(category => (
-            <p key={category.name}>{category.name} APO: {category.apo.toFixed(2)}%</p>
-          ))}
-          {/* Add more details as needed */}
-        </div>
-      )}
+        {occupations.length > 0 && (
+          <ul>
+            {occupations.map(occupation => (
+              <li key={occupation.code} onClick={() => handleSelectOccupation(occupation.code)}>
+                {occupation.title}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {selectedOccupation && apoResults && (
+          <div>
+            <h2>{selectedOccupation.details.title}</h2>
+            <p>Overall APO: {apoResults.overall.toFixed(2)}%</p>
+            {apoResults.categories.map(category => (
+              <p key={category.name}>{category.name} APO: {category.apo.toFixed(2)}%</p>
+            ))}
+            {/* Add more details as needed */}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
-export default App;
+export default Home;
