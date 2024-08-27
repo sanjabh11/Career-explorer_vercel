@@ -1,0 +1,12 @@
+{
+  "categories": [
+    {
+      "name": "Technology",
+      "skills": ["Programming", "Data Analysis", "Machine Learning"]
+    },
+    {
+      "name": "Business",
+      "skills": ["Project Management", "Marketing", "Finance"]
+    }
+  ]
+}
