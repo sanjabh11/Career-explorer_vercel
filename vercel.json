@@ -3,7 +3,17 @@
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/next"
+      "use": "@vercel/node"
     }
-  ]
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "env": {
+    "REACT_APP_ONET_USERNAME": "@react_app_onet_username",
+    "REACT_APP_ONET_PASSWORD": "@react_app_onet_password"
+  }
 }
