@@ -1,5 +1,5 @@
-import api from '../../utils/api';
-import { calculateAPO } from '../../utils/apo';
+import { fetchSkills, getOccupationDetails, searchOccupations } from '../../src/utils/api';
+import { calculateAPO } from '../../src/utils/apo';
 
 export default async function handler(req, res) {
   const { occupation } = req.query;
