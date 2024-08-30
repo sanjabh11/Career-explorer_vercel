@@ -7,7 +7,7 @@
     }
   ],
   "env": {
-    "NEXT_PUBLIC_ONET_USERNAME": "@next_public_onet_username",
-    "NEXT_PUBLIC_ONET_PASSWORD": "@next_public_onet_password"
+   "NEXT_PUBLIC_ONET_USERNAME": "NEXT_PUBLIC_ONET_USERNAME",
+  "NEXT_PUBLIC_ONET_PASSWORD": "NEXT_PUBLIC_ONET_PASSWORD"
   }
 }
